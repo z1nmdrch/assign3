@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Page</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-image: url('https://catherineasquithgallery.com/uploads/posts/2023-01/thumbs/1674253108_catherineasquithgallery-com-p-sero-zheltii-fon-geometriya-foto-1.jpg');
+            margin: 0;
+            padding: 0;
+            background-size: cover;
+        }
+
+        .container {
+            background-color: rgba(255, 255, 255, 0.8);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px;
+            width: 80%;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        h1 {
+            color: #333;
+            text-align: center;
+            margin-top: 30px;
+        }
+
+        h2 {
+            text-align: center;
+            margin-top: 30px;
+        }
+
+        .result-container {
+            background-color: #f9f9f9;
+            padding: 15px;
+            border-radius: 5px;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+            margin-top: 20px;
+        }
+
+        button[type="submit"] {
+            background-color: #ff7f2a;
+            border: none;
+            color: #fff;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            margin-top: 15px;
+        }
+
+        button[type="submit"]:hover {
+            background-color: #ee9957;
+        }
+
+        input[type="text"],
+        input[type="email"],
+        input[type="password"],
+        select {
+            width: calc(100% - 80px);
+            padding: 10px;
+            margin-bottom: 15px;
+            border: none;
+            border-bottom: 2px solid #aaa;
+            background-color: transparent;
+            transition: border-bottom-color 0.3s ease;
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        li {
+            margin-bottom: 20px;
+            padding: 10px;
+            background-color: #fff;
+            border-radius: 5px;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .navbar {
+            background-color: transparent;
+        }
+
+        .navbar-nav {
+            margin: 0 auto;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .nav-item {
+            padding: 0 10px;
+        }
+
+        .nav-link {
+            color: #ff7f2a !important;
+            margin: 0 10px;
+        }
+
+        .nav-link:hover {
+            color: #ffc107 !important;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Welcome to the Admin Page</h1>
+
+        <div class="container">
+            <h2>Users:</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Username</th>
+                        <th>Type</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% users.forEach(user => { %>
+                    <tr>
+                        <td><%= user.username %></td>
+                        <td>
+                            <% if (user.isAdmin) { %>
+                            <span class="admin">Admin</span>
+                            <% } else { %>
+                            <span class="user">User</span>
+                            <% } %>
+                        </td>
+                        <td>
+                            <form method="POST" action="/admin/delete/<%= user._id %>/<%= userId %>">
+                                <button type="submit">Delete</button>
+                            </form>
+                        </td>
+                    </tr>
+                    <% }) %>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="container">
+            <h2>Add New User:</h2>
+            <form method="POST" action="/admin/add/<%= userId %>">
+                <label for="username">Username:</label>
+                <input type="text" id="username" name="username" required><br>
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" required><br>
+                <label for="password">Password:</label>
+                <input type="password" id="password" name="password" required><br>
+                <button type="submit">Add User</button>
+            </form>
+        </div>
+
+        <div class="container">
+            <h2>Update User:</h2>
+            <form method="POST" action="/admin/update/<%= userId %>">
+                <label for="updateUserId">Select User to Update:</label>
+                <select id="updateUserId" name="updateUserId" required>
+                    <% users.forEach(user => { %>
+                    <option value="<%= user._id %>"><%= user.username %></option>
+                    <% }) %>
+                </select><br>
+                <label for="updateEmail">New Email:</label>
+                <input type="email" id="updateEmail" name="email"><br>
+                <label for="updateUsername">New Username:</label>
+                <input type="text" id="updateUsername" name="username"><br>
+                <label for="updatePassword">New Password:</label>
+                <input type="password" id="updatePassword" name="password"><br>
+                <button type="submit">Update User</button>
+            </form>
+        </div>
+    </div>
+</body>
+
+</html>
