@@ -3,7 +3,7 @@ const router = express.Router();
 const axios = require('axios');
 
 const User = require('../models/User');
-const Weather = require('../models/weather')
+const Weather = require('../models/Weather')
 const Breed = require('../models/Breed');
 const Book = require('../models/Book');
 router.get('/', (req, res) => {
